@@ -3,17 +3,22 @@
 import { useState, useRef } from "react";
 
 type InvoiceDetails = {
+  branchName: string;
+  summaryNo: string;
+  invoiceDate: string;
+  territory: string;
+  bookedBy: string;
+  suppliedBy: string;
   invoiceNo: string;
   accountCode: string;
   clientName: string;
   address: string;
   phoneNo: string;
   mobileNo: string;
-  invoiceDate: string;
-  summaryNo: string;
-  bookedBy: string;
-  suppliedBy: string;
-  territory: string;
+  generationNo: string;
+  expiryInvoiceNo: string;
+  generationDate: string;
+  searchExpInv: string;
 };
 
 type MedicineItem = {
@@ -30,28 +35,35 @@ type MedicineItem = {
 };
 
 export default function MidicareReceiptApp() {
-  const [details, setDetails] = useState<InvoiceDetails>({
+  const initialDetails = {
+    branchName: "AMC(BAJAUR)",
+    summaryNo: "3786",
+    invoiceDate: "29/08/2026",
+    territory: "Bajawar Khaar",
+    bookedBy: "17 SOHAIL KHAN",
+    suppliedBy: "17 SOHAIL KHAN",
     invoiceNo: "67190",
     accountCode: "9183",
     clientName: "AL FATHA M/S",
     address: "BAJAUR KHAAR",
     phoneNo: "",
     mobileNo: "",
-    invoiceDate: "29/08/2026",
-    summaryNo: "3786",
-    bookedBy: "17 SOHAIL KHAN",
-    suppliedBy: "17 SOHAIL KHAN",
-    territory: "Bajawar Khaar",
-  });
+    generationNo: "254921",
+    expiryInvoiceNo: "2028",
+    generationDate: "01/09/2026",
+    searchExpInv: "",
+  };
 
+  const [details, setDetails] = useState<InvoiceDetails>(initialDetails);
   const [items, setItems] = useState<MedicineItem[]>([]);
   const [showPreview, setShowPreview] = useState(false);
   const [isSharing, setIsSharing] = useState(false);
   const invoiceRef = useRef<HTMLDivElement>(null);
 
-  const [currentItem, setCurrentItem] = useState<MedicineItem>({
+  const emptyItem = {
     id: 0, code: "", name: "", batch: "", expiry: "", qty: "", free: "0", realPrice: "", extraDiscountPercent: "10.0", stax: "0"
-  });
+  };
+  const [currentItem, setCurrentItem] = useState<MedicineItem>(emptyItem);
 
   const handleDetailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDetails({ ...details, [e.target.name]: e.target.value });
@@ -61,22 +73,17 @@ export default function MidicareReceiptApp() {
     setCurrentItem({ ...currentItem, [e.target.name]: e.target.value });
   };
 
-  // Advanced Global Enter-To-Next & Auto-Add Logic
+  // Global Enter-To-Next & Auto-Add Logic
   const handleFormKeyDown = (e: React.KeyboardEvent<HTMLFormElement>) => {
     if (e.key === "Enter") {
       const target = e.target as HTMLElement;
-
-      // Agar direct button par Enter lagay to native click hone dain
       if (target.tagName === "BUTTON") return;
-
       e.preventDefault();
 
       const itemFields = ['code', 'name', 'batch', 'expiry', 'realPrice', 'qty', 'free', 'extraDiscountPercent', 'stax'];
       const isItemInput = itemFields.includes((target as HTMLInputElement).name);
 
-      // Agar Item wali kisi bhi field par hain
       if (isItemInput) {
-        // Check karein ke kiya sari zaroori fields pehly hi fill ho chuki hain?
         const isAllFilled =
           String(currentItem.code).trim() !== "" &&
           String(currentItem.name).trim() !== "" &&
@@ -85,17 +92,14 @@ export default function MidicareReceiptApp() {
           String(currentItem.realPrice).trim() !== "" &&
           String(currentItem.qty).trim() !== "";
 
-        // Agar sari fields fill hain, to Enter dabany py seedha ADD kar do
         if (isAllFilled) {
           document.getElementById("addBtn")?.click();
           return;
         }
       }
 
-      // Agar fields fill nahi hain, to bas cursor ko agli field par le jao
       const form = e.currentTarget;
       const elements = Array.from(form.elements) as HTMLElement[];
-
       const focusableElements = elements.filter((el) => {
         if (el.tagName !== "INPUT" && el.tagName !== "BUTTON" && el.tagName !== "SELECT") return false;
         const inputEl = el as HTMLInputElement;
@@ -140,12 +144,19 @@ export default function MidicareReceiptApp() {
       stax: Number(currentItem.stax) || 0
     }]);
 
-    // Add hone ke baad fields reset karein aur cursor wapis Code par le jayen
-    setCurrentItem({ id: 0, code: "", name: "", batch: "", expiry: "", qty: "", free: "0", realPrice: "", extraDiscountPercent: "10.0", stax: "0" });
+    setCurrentItem(emptyItem);
 
     setTimeout(() => {
       document.getElementById("productCodeInput")?.focus();
     }, 10);
+  };
+
+  const handleCancel = () => {
+    setDetails({
+      branchName: "", summaryNo: "", invoiceDate: "", territory: "", bookedBy: "", suppliedBy: "", invoiceNo: "", accountCode: "", clientName: "", address: "", phoneNo: "", mobileNo: "", generationNo: "", expiryInvoiceNo: "", generationDate: "", searchExpInv: ""
+    });
+    setItems([]);
+    setCurrentItem(emptyItem);
   };
 
   const handlePrint = () => {
@@ -240,7 +251,6 @@ export default function MidicareReceiptApp() {
         ::-webkit-scrollbar-thumb { background: #c0c0c0; border: 1px solid #fff; border-right-color: #888; border-bottom-color: #888; }
       `}} />
 
-      {/* ================= CLASSIC ORACLE UI ENTRY FORM ================= */}
       {!showPreview && (
         <div className="w-full min-h-screen flex flex-col p-1 sm:p-2 text-[11px] sm:text-[12px] text-white print:hidden font-mono selection:bg-blue-800">
 
@@ -249,12 +259,12 @@ export default function MidicareReceiptApp() {
             <div className="flex flex-col md:flex-row items-center justify-between border-[2px] border-black bg-[#0055A4] p-1 gap-2 md:gap-0">
               <div className="flex gap-1 items-center w-full md:w-1/3">
                 <span className="bg-gray-200 text-black px-2 font-black whitespace-nowrap border-[2px] border-black">Branch Code: 13</span>
-                <input value="AMC(BAJAUR)" readOnly className="bg-[#ccffff] text-black font-black px-2 outline-none w-full border-[2px] border-black" />
+                <input name="branchName" value={details.branchName || ""} onChange={handleDetailChange} className="bg-[#ccffff] text-black font-black px-2 outline-none w-full border-[2px] border-black" />
               </div>
               <div className="w-full md:w-1/3 text-center text-lg sm:text-xl font-black tracking-widest text-white shadow-sm">Sales Invoice Entry</div>
               <div className="w-full md:w-1/3 text-center md:text-right text-[11px] font-bold leading-tight pr-0 md:pr-2">
                 <div>DMS (V. 2014)</div>
-                <div>User Name: <span className="bg-gray-200 text-black px-1 font-black">MathiUllah</span></div>
+                <div>User Name: <span className="bg-gray-200 text-black px-1 font-black">SAJJAD KHAN(KPC)</span></div>
               </div>
             </div>
 
@@ -322,24 +332,23 @@ export default function MidicareReceiptApp() {
               <div className="border-[2px] border-black bg-[#0060B0] p-1 sm:p-2 flex flex-col justify-center gap-1 sm:gap-2">
                 <div className="flex items-center gap-1">
                   <label className="w-32 sm:w-28 text-white font-bold text-left sm:text-right pr-1 whitespace-nowrap">Generation No:</label>
-                  <input type="text" readOnly value="254921" className="flex-1 bg-[#ccffff] text-black font-bold border-[2px] border-black px-1 outline-none" />
+                  <input type="text" name="generationNo" value={details.generationNo || ""} onChange={handleDetailChange} className="flex-1 bg-[#ccffff] text-black font-bold border-[2px] border-black px-1 outline-none" />
                 </div>
                 <div className="flex items-center gap-1">
                   <label className="w-32 sm:w-28 text-white font-bold text-left sm:text-right pr-1 whitespace-nowrap">Expiry Invoice#:</label>
-                  <input type="text" readOnly value="1905" className="flex-1 bg-[#ccffff] text-black font-bold border-[2px] border-black px-1 outline-none" />
+                  <input type="text" name="expiryInvoiceNo" value={details.expiryInvoiceNo || ""} onChange={handleDetailChange} className="flex-1 bg-[#ccffff] text-black font-bold border-[2px] border-black px-1 outline-none" />
                 </div>
                 <div className="flex items-center gap-1">
                   <label className="w-32 sm:w-28 text-white font-bold text-left sm:text-right pr-1 whitespace-nowrap">Date:</label>
-                  <input type="text" readOnly value={new Date().toLocaleDateString("en-GB")} className="flex-1 bg-[#ccffff] text-black font-bold border-[2px] border-black px-1 outline-none" />
+                  <input type="text" name="generationDate" value={details.generationDate || ""} onChange={handleDetailChange} className="flex-1 bg-[#ccffff] text-black font-bold border-[2px] border-black px-1 outline-none" />
                 </div>
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-1 lg:mt-2">
                   <label className="w-full sm:w-36 lg:w-28 text-white font-bold text-left sm:text-right pr-1 whitespace-nowrap">Search Exp.Inv#:</label>
-                  <input type="text" className="w-full sm:flex-1 bg-white text-black font-bold border-[2px] border-black px-1 outline-none" />
+                  <input type="text" name="searchExpInv" value={details.searchExpInv || ""} onChange={handleDetailChange} className="w-full sm:flex-1 bg-white text-black font-bold border-[2px] border-black px-1 outline-none" />
                 </div>
               </div>
             </div>
 
-            {/* Editable Data Grid (Table) */}
             <div className="flex-1 overflow-x-auto border-[2px] border-black bg-[#008080] mt-1 sm:mt-2 flex flex-col relative min-h-[300px]">
               <table className="w-full min-w-[900px] text-left whitespace-nowrap border-collapse">
                 <thead className="sticky top-0 bg-[#0055A4] text-white z-10 shadow-sm border-b-[2px] border-black">
@@ -371,7 +380,7 @@ export default function MidicareReceiptApp() {
                     <td className="p-0 border-[2px] border-black"><input type="number" step="0.1" name="extraDiscountPercent" value={currentItem.extraDiscountPercent || ""} onChange={handleItemChange} className="w-full min-w-[40px] bg-transparent px-1 outline-none text-black font-bold border-none" /></td>
                     <td className="p-0 border-[2px] border-black"><input type="number" step="0.01" name="stax" value={currentItem.stax || ""} onChange={handleItemChange} className="w-full min-w-[40px] bg-transparent px-1 outline-none text-black font-bold border-none" /></td>
                     <td className="p-0 border-[2px] border-black bg-gray-300 px-1 text-right text-black font-black">{tempNet.toFixed(2)}</td>
-                    <td className="p-0 text-center border-[2px] border-black"><button id="addBtn" type="submit" className="w-full bg-green-600 text-white font-bold px-1 py-[2px] hover:bg-green-700 outline-none focus:ring-2 focus:ring-black">Add</button></td>
+                    <td className="p-0 text-center border-[2px] border-black"><button id="addBtn" type="submit" className="w-full bg-green-600 text-white font-bold px-1 py-[2px] hover:bg-green-700 outline-none">Add</button></td>
                   </tr>
 
                   {items.map((item, idx) => {
@@ -424,20 +433,9 @@ export default function MidicareReceiptApp() {
                 </div>
               </div>
 
-              <div className="flex flex-wrap justify-center sm:justify-between items-center mt-1 border-t-[2px] border-black pt-2 gap-2">
-                <div className="flex flex-wrap justify-center gap-2">
-                  {/* <button type="button" onClick={() => window.location.reload()} className="bg-gray-300 text-black font-bold px-3 sm:px-4 py-1 border-[2px] border-black hover:bg-gray-400">Add New</button> */}
-                  {/* <button type="button" className="bg-gray-300 text-black font-bold px-3 sm:px-4 py-1 border-[2px] border-black hover:bg-gray-400">Save</button> */}
-                  {/* <button type="button" className="bg-gray-300 text-black font-bold px-3 sm:px-4 py-1 border-[2px] border-black hover:bg-gray-400">Cancel</button> */}
-                  <button type="button" onClick={() => setShowPreview(true)} disabled={items.length === 0} className="bg-[#ccffff] text-black font-black px-4 sm:px-6 py-1 border-[2px] border-black hover:bg-white disabled:bg-gray-500 disabled:text-gray-300 transition-colors">Print Invoice</button>
-                </div>
-
-                <div className="w-full lg:w-auto text-center font-black tracking-widest text-white my-1 lg:my-0 order-first lg:order-none">normal Expiry</div>
-
-                <div className="flex flex-wrap justify-center gap-2">
-                  {/* <button type="button" className="bg-gray-300 text-black font-bold px-3 sm:px-4 py-1 border-[2px] border-black hover:bg-gray-400">Show Sales</button> */}
-                  <button type="button" className="bg-gray-300 text-black font-bold px-3 sm:px-4 py-1 border-[2px] border-black hover:bg-gray-400">Exit</button>
-                </div>
+              <div className="flex justify-center items-center mt-1 border-t-[2px] border-black pt-2 gap-4">
+                <button type="button" onClick={handleCancel} className="bg-gray-300 text-black font-bold px-6 py-1 border-[2px] border-black hover:bg-gray-400 transition-colors">Cancel</button>
+                <button type="button" onClick={() => setShowPreview(true)} disabled={items.length === 0} className="bg-[#ccffff] text-black font-black px-6 py-1 border-[2px] border-black hover:bg-white disabled:bg-gray-500 disabled:text-gray-300 transition-colors">Print Invoice</button>
               </div>
             </div>
 
@@ -445,7 +443,6 @@ export default function MidicareReceiptApp() {
         </div>
       )}
 
-      {/* ================= EXACT PROMINENT INVOICE PREVIEW & PDF SECTION ================= */}
       {showPreview && (
         <div className="max-w-[1000px] mx-auto bg-gray-200 print:bg-white shadow-2xl print:shadow-none print:max-w-full text-black pb-10">
 
@@ -474,8 +471,8 @@ export default function MidicareReceiptApp() {
                   <h2 className="text-xl font-black mt-4 tracking-wide text-black uppercase">Sales Invoice</h2>
                 </div>
                 <div className="w-1/4 text-right text-black font-bold">
-                  <p><span className="mr-2">Branch Name:</span> AMC(BAJAUR)</p>
-                  <p><span className="mr-2">Operator ID:</span> MathiUllah</p>
+                  <p><span className="mr-2">Branch Name:</span> {details.branchName}</p>
+                  <p><span className="mr-2">Operator ID:</span> SAJJAD KHAN(KPC)</p>
                 </div>
               </div>
 
@@ -583,7 +580,7 @@ export default function MidicareReceiptApp() {
                   <div className="h-10 border-b-[2px] border-black mb-1 flex items-end justify-center">
                     <span className="text-black italic text-xl font-bold">Signature</span>
                   </div>
-                  <p className="text-[11px] font-black text-black">For AMC Bajaur</p>
+                  <p className="text-[11px] font-black text-black">For {details.branchName}</p>
                 </div>
               </div>
 
