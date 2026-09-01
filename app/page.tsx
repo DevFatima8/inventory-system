@@ -264,7 +264,7 @@ export default function MidicareReceiptApp() {
               <div className="w-full md:w-1/3 text-center text-lg sm:text-xl font-black tracking-widest text-white shadow-sm">Sales Invoice Entry</div>
               <div className="w-full md:w-1/3 text-center md:text-right text-[11px] font-bold leading-tight pr-0 md:pr-2">
                 <div>DMS (V. 2014)</div>
-                <div>User Name: <span className="bg-gray-200 text-black px-1 font-black">SAJJAD KHAN(KPC)</span></div>
+                <div>User Name: <span className="bg-gray-200 text-black px-1 font-black">MathiUllah</span></div>
               </div>
             </div>
 
@@ -472,7 +472,7 @@ export default function MidicareReceiptApp() {
                 </div>
                 <div className="w-1/4 text-right text-black font-bold">
                   <p><span className="mr-2">Branch Name:</span> {details.branchName}</p>
-                  <p><span className="mr-2">Operator ID:</span> SAJJAD KHAN(KPC)</p>
+                  <p><span className="mr-2">Operator ID:</span> MathiUllah 1</p>
                 </div>
               </div>
 
