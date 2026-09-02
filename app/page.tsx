@@ -186,8 +186,10 @@ export default function MidicareReceiptApp() {
 
       const elem = invoiceRef.current;
 
-      const imgData = await htmlToImage.toPng(elem, {
-        pixelRatio: 2,
+      // Fast JPEG Rendering lagaya hai taake seconds ki jagah mili-seconds mein PDF bane
+      const imgData = await htmlToImage.toJpeg(elem, {
+        pixelRatio: 1.5, // Speed aur quality ka perfect balance
+        quality: 0.9,
         backgroundColor: '#ffffff',
         style: { margin: '0', width: '800px' }
       });
@@ -206,18 +208,22 @@ export default function MidicareReceiptApp() {
       }
 
       const marginX = (pdfWidth - imgWidth) / 2;
-      pdf.addImage(imgData, "PNG", marginX, 0, imgWidth, imgHeight);
+      pdf.addImage(imgData, "JPEG", marginX, 0, imgWidth, imgHeight); // JPEG se share boht fast hoga
 
       const pdfBlob = pdf.output("blob");
       const fileName = `Invoice_${details.invoiceNo || 'Draft'}.pdf`;
       const file = new File([pdfBlob], fileName, { type: "application/pdf" });
 
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({
-          files: [file],
-          title: `Invoice #${details.invoiceNo || 'Draft'}`,
-          text: `Azad Medicine Company Invoice attached.`,
-        });
+        try {
+          await navigator.share({
+            files: [file],
+            title: fileName,
+            // Note: Text parameter ko remove kiya hai kyun ke baaz mobiles par text ke sath file WhatsApp par drop ho jati hai
+          });
+        } catch (shareErr) {
+          console.log("Share cancelled or failed", shareErr);
+        }
       } else {
         pdf.save(fileName);
         alert("Aapka browser file sharing support nahi karta. PDF download ho gayi hai.");
@@ -379,7 +385,7 @@ export default function MidicareReceiptApp() {
                     <td className="p-0 border-[2px] border-black"><input type="number" step="0.1" name="extraDiscountPercent" value={currentItem.extraDiscountPercent || ""} onChange={handleItemChange} className="w-full min-w-[40px] bg-transparent px-1 outline-none text-black font-bold border-none" /></td>
                     <td className="p-0 border-[2px] border-black"><input type="number" step="0.01" name="stax" value={currentItem.stax || ""} onChange={handleItemChange} className="w-full min-w-[40px] bg-transparent px-1 outline-none text-black font-bold border-none" /></td>
                     <td className="p-0 border-[2px] border-black bg-gray-300 px-1 text-right text-black font-black">{tempNet.toFixed(2)}</td>
-                    <td className="p-0 text-center border-[2px] border-black"><button id="addBtn" type="submit" className="w-full bg-green-600 text-white font-bold px-1 py-[2px] hover:bg-green-700 outline-none">Add</button></td>
+                    <td className="p-0 text-center border-[2px] border-black"><button id="addBtn" type="submit" className="w-full bg-green-600 text-white font-bold px-1 py-[2px] hover:bg-green-700 outline-none focus:ring-2 focus:ring-black">Add</button></td>
                   </tr>
 
                   {items.map((item, idx) => {
@@ -470,7 +476,7 @@ export default function MidicareReceiptApp() {
                   <h2 className="text-xl font-black mt-4 tracking-wide text-black uppercase">Sales Invoice</h2>
                 </div>
                 <div className="w-1/4 text-right text-black font-bold">
-                  <p><span className="mr-2">Branch Name:</span> {details.branchName}</p>
+                  <p><span className="mr-2">Branch Name:</span> {details.branchName || "_________________"}</p>
                   <p><span className="mr-2">Operator ID:</span> MathiUllah</p>
                 </div>
               </div>
