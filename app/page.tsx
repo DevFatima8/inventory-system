@@ -19,6 +19,7 @@ type InvoiceDetails = {
   expiryInvoiceNo: string;
   generationDate: string;
   searchExpInv: string;
+  prevBalance: string;
 };
 
 type MedicineItem = {
@@ -35,23 +36,24 @@ type MedicineItem = {
 };
 
 export default function MidicareReceiptApp() {
-  const initialDetails = {
-    branchName: "AMC(BAJAUR)",
-    summaryNo: "3786",
-    invoiceDate: "29/08/2026",
-    territory: "Bajawar Khaar",
-    bookedBy: "17 SOHAIL KHAN",
-    suppliedBy: "17 SOHAIL KHAN",
-    invoiceNo: "67190",
-    accountCode: "9183",
-    clientName: "AL FATHA M/S",
-    address: "BAJAUR KHAAR",
+  const initialDetails: InvoiceDetails = {
+    branchName: "",
+    summaryNo: "",
+    invoiceDate: "",
+    territory: "",
+    bookedBy: "",
+    suppliedBy: "",
+    invoiceNo: "",
+    accountCode: "",
+    clientName: "",
+    address: "",
     phoneNo: "",
     mobileNo: "",
-    generationNo: "254921",
-    expiryInvoiceNo: "2028",
-    generationDate: "01/09/2026",
+    generationNo: "",
+    expiryInvoiceNo: "",
+    generationDate: "",
     searchExpInv: "",
+    prevBalance: "",
   };
 
   const [details, setDetails] = useState<InvoiceDetails>(initialDetails);
@@ -73,7 +75,6 @@ export default function MidicareReceiptApp() {
     setCurrentItem({ ...currentItem, [e.target.name]: e.target.value });
   };
 
-  // Global Enter-To-Next & Auto-Add Logic
   const handleFormKeyDown = (e: React.KeyboardEvent<HTMLFormElement>) => {
     if (e.key === "Enter") {
       const target = e.target as HTMLElement;
@@ -152,9 +153,7 @@ export default function MidicareReceiptApp() {
   };
 
   const handleCancel = () => {
-    setDetails({
-      branchName: "", summaryNo: "", invoiceDate: "", territory: "", bookedBy: "", suppliedBy: "", invoiceNo: "", accountCode: "", clientName: "", address: "", phoneNo: "", mobileNo: "", generationNo: "", expiryInvoiceNo: "", generationDate: "", searchExpInv: ""
-    });
+    setDetails(initialDetails);
     setItems([]);
     setCurrentItem(emptyItem);
   };
@@ -210,14 +209,14 @@ export default function MidicareReceiptApp() {
       pdf.addImage(imgData, "PNG", marginX, 0, imgWidth, imgHeight);
 
       const pdfBlob = pdf.output("blob");
-      const fileName = `Invoice_${details.invoiceNo}.pdf`;
+      const fileName = `Invoice_${details.invoiceNo || 'Draft'}.pdf`;
       const file = new File([pdfBlob], fileName, { type: "application/pdf" });
 
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
         await navigator.share({
           files: [file],
-          title: `Invoice #${details.invoiceNo}`,
-          text: `Azad Medicine Company Invoice #${details.invoiceNo} attached.`,
+          title: `Invoice #${details.invoiceNo || 'Draft'}`,
+          text: `Azad Medicine Company Invoice attached.`,
         });
       } else {
         pdf.save(fileName);
@@ -315,7 +314,7 @@ export default function MidicareReceiptApp() {
                   <div className="flex flex-col sm:flex-row items-start sm:items-center gap-1 sm:mt-1">
                     <div className="flex items-center gap-1 w-full sm:w-auto">
                       <label className="w-28 text-white font-bold pl-1 text-left sm:text-right pr-1 whitespace-nowrap">Prev Balance:</label>
-                      <input type="text" readOnly value="226655" className="flex-1 sm:w-24 sm:flex-none bg-gray-300 text-black font-black border-[2px] border-black px-1 outline-none" />
+                      <input type="text" name="prevBalance" value={details.prevBalance || ""} onChange={handleDetailChange} className="flex-1 sm:w-24 sm:flex-none bg-gray-200 text-black font-black border-[2px] border-black px-1 outline-none" />
                     </div>
                     <div className="flex items-center gap-1 w-full sm:w-auto">
                       <label className="w-28 sm:w-16 text-white font-bold text-left sm:text-right pr-1 whitespace-nowrap">Bill Amnt:</label>
@@ -324,7 +323,7 @@ export default function MidicareReceiptApp() {
                   </div>
                   <div className="flex items-center gap-1">
                     <label className="w-28 text-white font-bold pl-1 text-left sm:text-right pr-1 whitespace-nowrap">Net Balance:</label>
-                    <input type="text" readOnly value={(226655 + netBillAmount).toFixed(0)} className="flex-1 sm:w-24 sm:flex-none bg-gray-300 text-black font-black border-[2px] border-black px-1 outline-none" />
+                    <input type="text" readOnly value={(Number(details.prevBalance || 0) + netBillAmount).toFixed(0)} className="flex-1 sm:w-24 sm:flex-none bg-gray-300 text-black font-black border-[2px] border-black px-1 outline-none" />
                   </div>
                 </div>
               </div>
@@ -472,7 +471,7 @@ export default function MidicareReceiptApp() {
                 </div>
                 <div className="w-1/4 text-right text-black font-bold">
                   <p><span className="mr-2">Branch Name:</span> {details.branchName}</p>
-                  <p><span className="mr-2">Operator ID:</span> MathiUllah 1</p>
+                  <p><span className="mr-2">Operator ID:</span> MathiUllah</p>
                 </div>
               </div>
 
