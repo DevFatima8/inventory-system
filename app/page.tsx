@@ -41,8 +41,8 @@ export default function MidicareReceiptApp() {
     summaryNo: "",
     invoiceDate: "",
     territory: "",
-    bookedBy: "",
-    suppliedBy: "",
+    bookedBy: "Matti",
+    suppliedBy: "Matti",
     invoiceNo: "",
     accountCode: "",
     clientName: "",
@@ -186,9 +186,8 @@ export default function MidicareReceiptApp() {
 
       const elem = invoiceRef.current;
 
-      // Fast JPEG Rendering lagaya hai taake seconds ki jagah mili-seconds mein PDF bane
       const imgData = await htmlToImage.toJpeg(elem, {
-        pixelRatio: 1.5, // Speed aur quality ka perfect balance
+        pixelRatio: 1.5,
         quality: 0.9,
         backgroundColor: '#ffffff',
         style: { margin: '0', width: '800px' }
@@ -208,7 +207,7 @@ export default function MidicareReceiptApp() {
       }
 
       const marginX = (pdfWidth - imgWidth) / 2;
-      pdf.addImage(imgData, "JPEG", marginX, 0, imgWidth, imgHeight); // JPEG se share boht fast hoga
+      pdf.addImage(imgData, "JPEG", marginX, 0, imgWidth, imgHeight);
 
       const pdfBlob = pdf.output("blob");
       const fileName = `Invoice_${details.invoiceNo || 'Draft'}.pdf`;
@@ -219,7 +218,6 @@ export default function MidicareReceiptApp() {
           await navigator.share({
             files: [file],
             title: fileName,
-            // Note: Text parameter ko remove kiya hai kyun ke baaz mobiles par text ke sath file WhatsApp par drop ho jati hai
           });
         } catch (shareErr) {
           console.log("Share cancelled or failed", shareErr);
@@ -317,6 +315,16 @@ export default function MidicareReceiptApp() {
                     <label className="w-28 text-white font-bold pl-1 text-left sm:text-right pr-1 whitespace-nowrap">Customer Name:</label>
                     <input type="text" name="clientName" value={details.clientName || ""} onChange={handleDetailChange} className="flex-1 bg-[#ccffff] text-black font-bold border-[2px] border-black px-1 outline-none" />
                   </div>
+                  {/* Newly added fields for Address and Contact */}
+                  <div className="flex items-center gap-1">
+                    <label className="w-28 text-white font-bold pl-1 text-left sm:text-right pr-1 whitespace-nowrap">Address:</label>
+                    <input type="text" name="address" value={details.address || ""} onChange={handleDetailChange} className="flex-1 bg-[#ccffff] text-black font-bold border-[2px] border-black px-1 outline-none" />
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <label className="w-28 text-white font-bold pl-1 text-left sm:text-right pr-1 whitespace-nowrap">Contact No:</label>
+                    <input type="text" name="phoneNo" value={details.phoneNo || ""} onChange={handleDetailChange} className="flex-1 bg-[#ccffff] text-black font-bold border-[2px] border-black px-1 outline-none" />
+                  </div>
+                  {/* New fields end here */}
                   <div className="flex flex-col sm:flex-row items-start sm:items-center gap-1 sm:mt-1">
                     <div className="flex items-center gap-1 w-full sm:w-auto">
                       <label className="w-28 text-white font-bold pl-1 text-left sm:text-right pr-1 whitespace-nowrap">Prev Balance:</label>
