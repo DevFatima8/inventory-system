@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 
 type InvoiceDetails = {
   branchName: string;
+  operatorId: string;
   summaryNo: string;
   invoiceDate: string;
   territory: string;
@@ -37,7 +38,8 @@ type MedicineItem = {
 
 export default function MidicareReceiptApp() {
   const initialDetails: InvoiceDetails = {
-    branchName: "",
+    branchName: "AMC(BAJAUR)",
+    operatorId: "SAJJAD KHAN (KPO)",
     summaryNo: "",
     invoiceDate: "",
     territory: "",
@@ -267,7 +269,15 @@ export default function MidicareReceiptApp() {
               <div className="w-full md:w-1/3 text-center text-lg sm:text-xl font-black tracking-widest text-white shadow-sm">Sales Invoice Entry</div>
               <div className="w-full md:w-1/3 text-center md:text-right text-[11px] font-bold leading-tight pr-0 md:pr-2">
                 <div>DMS (V. 2014)</div>
-                <div>User Name: <span className="bg-gray-200 text-black px-1 font-black">MathiUllah</span></div>
+                <div className="flex items-center gap-1 justify-end mt-1">
+                  <span>User Name:</span>
+                  <input
+                    name="operatorId"
+                    value={details.operatorId || ""}
+                    onChange={handleDetailChange}
+                    className="bg-gray-200 text-black px-1 font-black outline-none border-[1px] border-gray-400 w-44"
+                  />
+                </div>
               </div>
             </div>
 
@@ -315,7 +325,6 @@ export default function MidicareReceiptApp() {
                     <label className="w-28 text-white font-bold pl-1 text-left sm:text-right pr-1 whitespace-nowrap">Customer Name:</label>
                     <input type="text" name="clientName" value={details.clientName || ""} onChange={handleDetailChange} className="flex-1 bg-[#ccffff] text-black font-bold border-[2px] border-black px-1 outline-none" />
                   </div>
-                  {/* Newly added fields for Address and Contact */}
                   <div className="flex items-center gap-1">
                     <label className="w-28 text-white font-bold pl-1 text-left sm:text-right pr-1 whitespace-nowrap">Address:</label>
                     <input type="text" name="address" value={details.address || ""} onChange={handleDetailChange} className="flex-1 bg-[#ccffff] text-black font-bold border-[2px] border-black px-1 outline-none" />
@@ -324,7 +333,6 @@ export default function MidicareReceiptApp() {
                     <label className="w-28 text-white font-bold pl-1 text-left sm:text-right pr-1 whitespace-nowrap">Contact No:</label>
                     <input type="text" name="phoneNo" value={details.phoneNo || ""} onChange={handleDetailChange} className="flex-1 bg-[#ccffff] text-black font-bold border-[2px] border-black px-1 outline-none" />
                   </div>
-                  {/* New fields end here */}
                   <div className="flex flex-col sm:flex-row items-start sm:items-center gap-1 sm:mt-1">
                     <div className="flex items-center gap-1 w-full sm:w-auto">
                       <label className="w-28 text-white font-bold pl-1 text-left sm:text-right pr-1 whitespace-nowrap">Prev Balance:</label>
@@ -485,7 +493,7 @@ export default function MidicareReceiptApp() {
                 </div>
                 <div className="w-1/4 text-right text-black font-bold">
                   <p><span className="mr-2">Branch Name:</span> {details.branchName || "_________________"}</p>
-                  <p><span className="mr-2">Operator ID:</span> MathiUllah</p>
+                  <p><span className="mr-2">Operator ID:</span> {details.operatorId}</p>
                 </div>
               </div>
 
