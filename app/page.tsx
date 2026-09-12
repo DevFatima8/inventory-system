@@ -333,20 +333,20 @@ export default function MidicareReceiptApp() {
                     <label className="w-28 text-white font-bold pl-1 text-left sm:text-right pr-1 whitespace-nowrap">Contact No:</label>
                     <input type="text" name="phoneNo" value={details.phoneNo || ""} onChange={handleDetailChange} className="flex-1 bg-[#ccffff] text-black font-bold border-[2px] border-black px-1 outline-none" />
                   </div>
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-1 sm:mt-1">
-                    <div className="flex items-center gap-1 w-full sm:w-auto">
+                  {/* <div className="flex flex-col sm:flex-row items-start sm:items-center gap-1 sm:mt-1"> */}
+                  {/* <div className="flex items-center gap-1 w-full sm:w-auto">
                       <label className="w-28 text-white font-bold pl-1 text-left sm:text-right pr-1 whitespace-nowrap">Prev Balance:</label>
                       <input type="text" name="prevBalance" value={details.prevBalance || ""} onChange={handleDetailChange} className="flex-1 sm:w-24 sm:flex-none bg-gray-200 text-black font-black border-[2px] border-black px-1 outline-none" />
-                    </div>
-                    <div className="flex items-center gap-1 w-full sm:w-auto">
-                      <label className="w-28 sm:w-16 text-white font-bold text-left sm:text-right pr-1 whitespace-nowrap">Bill Amnt:</label>
-                      <input type="text" readOnly value={netBillAmount.toFixed(0)} className="flex-1 sm:w-24 sm:flex-none bg-[#ccffff] text-black font-black border-[2px] border-black px-1 outline-none" />
-                    </div>
+                    </div> */}
+                  <div className="flex items-center gap-1 w-full sm:w-auto">
+                    <label className="w-28 sm:w-16 text-white font-bold text-left sm:text-right pr-1 whitespace-nowrap">Bill Amnt:</label>
+                    <input type="text" readOnly value={netBillAmount.toFixed(0)} className="flex-1 sm:w-24 sm:flex-none bg-[#ccffff] text-black font-black border-[2px] border-black px-1 outline-none" />
                   </div>
-                  <div className="flex items-center gap-1">
+                  {/* </div> */}
+                  {/* <div className="flex items-center gap-1">
                     <label className="w-28 text-white font-bold pl-1 text-left sm:text-right pr-1 whitespace-nowrap">Net Balance:</label>
                     <input type="text" readOnly value={(Number(details.prevBalance || 0) + netBillAmount).toFixed(0)} className="flex-1 sm:w-24 sm:flex-none bg-gray-300 text-black font-black border-[2px] border-black px-1 outline-none" />
-                  </div>
+                  </div> */}
                 </div>
               </div>
 
