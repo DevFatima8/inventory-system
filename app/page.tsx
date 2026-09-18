@@ -590,45 +590,63 @@ export default function MidicareReceiptApp() {
                 </tbody>
               </table>
 
-              <div className="flex print-border border-[1px] border-zinc-500 rounded-sm mb-3 mt-2">
-                <div className="w-2/3 p-2 print-border-r border-r-[1px] border-zinc-500 flex flex-col justify-between">
-                  <div className="flex gap-12 font-semibold text-zinc-800">
-                    <div>No of Item(s) <span className="ml-4">{items.length}</span></div>
-                    <div className="ml-16">{totals.qty}</div>
-                  </div>
-                </div>
-                <div className="w-1/3 p-2 bg-white print:bg-transparent">
-                  <div className="grid grid-cols-[1fr_80px] gap-y-1 text-right text-[11px] text-zinc-800">
-                    <div className="font-semibold text-zinc-800">Total Gross Amount:</div><div className="font-semibold">{totals.gross.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
-                    <div className="font-medium text-zinc-700">Total Discount:</div><div>{totals.discount.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
-                    <div className="font-medium text-zinc-700">S.Tax Amount:</div><div>{totals.stax.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
-                    <div className="font-semibold pt-1 print-border-t border-t-[1px] border-zinc-500 mt-1 text-[11.5px] text-zinc-900">Net Bill Amount:</div><div className="font-semibold pt-1 print-border-t border-t-[1px] border-zinc-500 mt-1 text-[11.5px] text-zinc-900">{netBillAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
-                  </div>
-                </div>
-              </div>
+              {/* Totals, Warranty, and Notes Section (Bina Box Borders Ke) */}
+              <div className="flex mb-2 mt-2 px-1">
+                {/* Left Side: No of Items + Warranty + Notes */}
+                <div className="w-[66%] pr-4 flex flex-col justify-between">
+                  <div>
+                    <div className="flex gap-12 font-semibold text-zinc-800 text-[11px] mb-1.5">
+                      <div>No of Item(s) <span className="ml-4">{items.length}</span></div>
+                      <div className="ml-16">{totals.qty}</div>
+                    </div>
 
-              <div className="flex justify-between items-end mt-2">
-                <div className="w-3/4 pr-4">
-                  <p className="text-[9.5px] text-zinc-600 mb-1.5 text-justify leading-tight font-normal">
-                    Warranty: Under section 23(1)(1) for Pharmaceutical Products of the Drug Act 1976 & DRAP Act, 2012 for
-                    Alternative Medicine & Health Products. I, Salman Khan, being a person resident in Pakistan and am a
-                    qualified person of AZAD MEDICINE COMPANY, Captan Sajjad Shaheed, Bypass Road, Near Hospital
-                    Stop Bajaur, do here by give this Warranty that the drug sold by me, contain in this invoice do not
-                    contravene in any way the provision of Section 23 of Drug ACT, 1976.
-                  </p>
-                  <div className="text-[10.5px] font-semibold text-zinc-700 leading-tight mb-1">
+                    <p className="text-[8.5px] text-zinc-700 text-justify leading-tight font-normal mb-1">
+                      Warranty: Under section 23(1)(1) for Pharmaceutical Products of the Drug Act 1976 &amp; DRAP Act, 2012 for
+                      Alternative Medicine &amp; Health Products. I, Salman Khan, being a person resident in Pakistan and am a
+                      qualified person of AZAD MEDICINE COMPANY, Captan Sajjad Shaheed, Bypass Road, Near Hospital
+                      Stop Bajaur, do here by give this Warranty that the drug sold by me, contain in this invoice do not
+                      contravene in any way the provision of Section 23 of Drug ACT, 1976.
+                    </p>
+                  </div>
+
+                  <div className="text-[9px] font-semibold text-zinc-700 leading-tight">
                     <p className="mb-0.5">** NOTE 1:- Intimation of Expired Stock within Six(6) months will be highly appreciated...</p>
-                    <p className="ml-4">Note 2 :Helix Stallion Team(Bonus Products) expiry will not be accepted.</p>
+                    <p className="ml-3">Note 2 :Helix Stallion Team(Bonus Products) expiry will not be accepted.</p>
                   </div>
                 </div>
 
-                <div className="w-1/4 text-center">
-                  <div className="h-10 print-border-b border-b-[1px] border-zinc-500 mb-1"></div>
-                  <p className="text-[11px] font-semibold text-zinc-700">For {details.branchName}</p>
+                {/* Right Side: Totals (Clean & Border-Free) */}
+                <div className="w-[34%] pl-2 bg-white print:bg-transparent flex flex-col justify-start">
+                  <div className="grid grid-cols-[1fr_80px] gap-y-1 text-right text-[10.5px] text-zinc-800">
+                    <div className="font-semibold text-zinc-800">Total Gross Amount:</div>
+                    <div className="font-semibold">{totals.gross.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
+
+                    <div className="font-medium text-zinc-700">Total Discount:</div>
+                    <div>{totals.discount.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
+
+                    <div className="font-medium text-zinc-700">S.Tax Amount:</div>
+                    <div>{totals.stax.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
+
+                    <div className="font-semibold pt-1 mt-1 text-[11px] text-zinc-900">
+                      Net Bill Amount:
+                    </div>
+                    <div className="font-semibold pt-1 mt-1 text-[11px] text-zinc-900">
+                      {netBillAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <div className="mt-3 mb-1 text-center text-[13.5px] font-semibold text-zinc-800" dir="rtl" style={{ fontFamily: '"Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", Arial, serif' }}>
+              {/* Signature Section */}
+              <div className="flex justify-end items-end mt-2 pr-4">
+                <div className="w-1/3 text-center">
+                  <div className="h-8 mb-1"></div>
+                  <p className="text-[11px] font-semibold text-zinc-700">For {details.branchName || "AMC Bajaur"}</p>
+                </div>
+              </div>
+
+              {/* Urdu Footer */}
+              <div className="mt-2 mb-1 text-center text-[13px] font-semibold text-zinc-800" dir="rtl" style={{ fontFamily: '"Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", Arial, serif' }}>
                 خبردار:- سٹاک وصول کرتے وقت بل کی رقوم ، تعداد اشیاء وغیرہ تسلی سے چیک کریں۔ بعد میں ہم ذمہ دار نہ ہوں گے۔
               </div>
 
