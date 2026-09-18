@@ -265,11 +265,10 @@ export default function MidicareReceiptApp() {
             color: #27272a !important;
           }
           
-          /* Light & fine borders for print */
+          /* Light & fine borders for print headers */
           #printArea .print-border,
           #printArea table,
-          #printArea th,
-          #printArea td {
+          #printArea th {
             border-width: 1px !important;
             border-color: #71717a !important;
           }
@@ -571,19 +570,19 @@ export default function MidicareReceiptApp() {
                     const net = gross - discAmount + Number(item.stax);
 
                     return (
-                      <tr key={item.id} className="print-border-b border-b-[1px] border-zinc-400">
-                        <td className="print-border border-[1px] border-zinc-400 py-[3px] px-1">{item.code}</td>
-                        <td className="print-border border-[1px] border-zinc-400 py-[3px] px-2 text-left uppercase font-semibold text-zinc-900">{item.name}</td>
-                        <td className="print-border border-[1px] border-zinc-400 py-[3px] px-1">{item.batch}</td>
-                        <td className="print-border border-[1px] border-zinc-400 py-[3px] px-1">{item.expiry}</td>
-                        <td className="print-border border-[1px] border-zinc-400 py-[3px] px-1">{item.qty}</td>
-                        <td className="print-border border-[1px] border-zinc-400 py-[3px] px-1">{item.free}</td>
-                        <td className="print-border border-[1px] border-zinc-400 py-[3px] px-1">{tradePrice.toFixed(1)}</td>
-                        <td className="print-border border-[1px] border-zinc-400 py-[3px] px-1 font-semibold">{gross.toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}</td>
-                        <td className="print-border border-[1px] border-zinc-400 py-[3px] px-1">{Number(item.extraDiscountPercent).toFixed(1)}</td>
-                        <td className="print-border border-[1px] border-zinc-400 py-[3px] px-1 text-right pr-2">{discAmount.toFixed(1)}</td>
-                        <td className="print-border border-[1px] border-zinc-400 py-[3px] px-1">{Number(item.stax) > 0 ? item.stax : ""}</td>
-                        <td className="print-border border-[1px] border-zinc-400 py-[3px] px-1 text-right pr-2 font-semibold text-zinc-900">{net.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                      <tr key={item.id} className="border-none print:border-none">
+                        <td className="py-[3px] px-1">{item.code}</td>
+                        <td className="py-[3px] px-2 text-left uppercase font-semibold text-zinc-900">{item.name}</td>
+                        <td className="py-[3px] px-1">{item.batch}</td>
+                        <td className="py-[3px] px-1">{item.expiry}</td>
+                        <td className="py-[3px] px-1">{item.qty}</td>
+                        <td className="py-[3px] px-1">{item.free}</td>
+                        <td className="py-[3px] px-1">{tradePrice.toFixed(1)}</td>
+                        <td className="py-[3px] px-1 font-semibold">{gross.toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}</td>
+                        <td className="py-[3px] px-1">{Number(item.extraDiscountPercent).toFixed(1)}</td>
+                        <td className="py-[3px] px-1 text-right pr-2">{discAmount.toFixed(1)}</td>
+                        <td className="py-[3px] px-1">{Number(item.stax) > 0 ? item.stax : ""}</td>
+                        <td className="py-[3px] px-1 text-right pr-2 font-semibold text-zinc-900">{net.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                       </tr>
                     );
                   })}
