@@ -641,7 +641,8 @@ export default function MidicareReceiptApp() {
                 </div>
               </div>
 
-              <div className="mt-2 mb-1 text-center text-[13px] font-semibold text-zinc-800" dir="rtl" style={{ fontFamily: '"Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", Arial, serif' }}>
+              {/* Urdu Footer */}
+              <div className="mt-2 mb-2 text-center text-[16px] font-bold text-black" dir="rtl" style={{ fontFamily: '"Jameel Noori Nastaleeq", "Noto Nastaliq Urdu", serif' }}>
                 خبردار:- سٹاک وصول کرتے وقت بل کی رقوم ، تعداد اشیاء وغیرہ تسلی سے چیک کریں۔ بعد میں ہم ذمہ دار نہ ہوں گے۔
               </div>
 
