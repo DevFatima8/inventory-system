@@ -521,7 +521,8 @@ export default function MidicareReceiptApp() {
                 </div>
               </div>
 
-              <div className="print-border border-[1px] border-zinc-500 rounded-sm p-2.5 flex justify-between mb-3 bg-white">
+              {/* IS DIV SE BORDER REMOVE KIYA GAYA HAI */}
+              <div className="rounded-sm p-2.5 flex justify-between mb-3 bg-white">
                 <div className="grid grid-cols-[100px_1fr] gap-y-1 w-[45%] text-zinc-800 font-medium">
                   <div className="text-right pr-2 text-zinc-600 font-semibold">Invoice No:</div><div className="font-semibold text-zinc-900">{details.invoiceNo}</div>
                   <div className="text-right pr-2 text-zinc-600 font-semibold">Account Code:</div><div>{details.accountCode}</div>
@@ -589,9 +590,7 @@ export default function MidicareReceiptApp() {
                 </tbody>
               </table>
 
-              {/* Totals, Warranty, and Notes Section (Bina Box Borders Ke) */}
               <div className="flex mb-2 mt-2 px-1">
-                {/* Left Side: No of Items + Warranty + Notes */}
                 <div className="w-[66%] pr-4 flex flex-col justify-between">
                   <div>
                     <div className="flex gap-12 font-semibold text-zinc-800 text-[11px] mb-1.5">
@@ -614,7 +613,6 @@ export default function MidicareReceiptApp() {
                   </div>
                 </div>
 
-                {/* Right Side: Totals (Clean & Border-Free) */}
                 <div className="w-[34%] pl-2 bg-white print:bg-transparent flex flex-col justify-start">
                   <div className="grid grid-cols-[1fr_80px] gap-y-1 text-right text-[10.5px] text-zinc-800">
                     <div className="font-semibold text-zinc-800">Total Gross Amount:</div>
@@ -636,7 +634,6 @@ export default function MidicareReceiptApp() {
                 </div>
               </div>
 
-              {/* Signature Section */}
               <div className="flex justify-end items-end mt-2 pr-4">
                 <div className="w-1/3 text-center">
                   <div className="h-8 mb-1"></div>
@@ -644,7 +641,6 @@ export default function MidicareReceiptApp() {
                 </div>
               </div>
 
-              {/* Urdu Footer */}
               <div className="mt-2 mb-1 text-center text-[13px] font-semibold text-zinc-800" dir="rtl" style={{ fontFamily: '"Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", Arial, serif' }}>
                 خبردار:- سٹاک وصول کرتے وقت بل کی رقوم ، تعداد اشیاء وغیرہ تسلی سے چیک کریں۔ بعد میں ہم ذمہ دار نہ ہوں گے۔
               </div>
