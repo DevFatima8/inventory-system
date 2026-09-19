@@ -65,7 +65,7 @@ export default function MidicareReceiptApp() {
   const invoiceRef = useRef<HTMLDivElement>(null);
 
   const emptyItem = {
-    id: 0, code: "", name: "", batch: "", expiry: "", qty: "", free: "0", realPrice: "", extraDiscountPercent: "10.0", stax: "0"
+    id: 0, code: "", name: "", batch: "", expiry: "", qty: "", free: "0", realPrice: "", extraDiscountPercent: "0", stax: "0"
   };
   const [currentItem, setCurrentItem] = useState<MedicineItem>(emptyItem);
 
