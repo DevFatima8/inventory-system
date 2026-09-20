@@ -65,7 +65,7 @@ export default function MidicareReceiptApp() {
   const invoiceRef = useRef<HTMLDivElement>(null);
 
   const emptyItem = {
-    id: 0, code: "", name: "", batch: "", expiry: "", qty: "", free: "0", realPrice: "", extraDiscountPercent: "0", stax: "0"
+    id: 0, code: "", name: "", batch: "", expiry: "", qty: "", free: "0", realPrice: "", extraDiscountPercent: "10.0", stax: "0"
   };
   const [currentItem, setCurrentItem] = useState<MedicineItem>(emptyItem);
 
@@ -251,18 +251,8 @@ export default function MidicareReceiptApp() {
           body, html { background-color: white !important; margin: 0 !important; padding: 0 !important; }
           * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
           
-          /* Print text tone: readable dark gray instead of pitch black */
           #printArea, #printArea * {
-            color: #27272a !important;
-            font-weight: 500 !important;
-          }
-          #printArea h1 {
-            font-weight: 700 !important;
             color: #18181b !important;
-          }
-          #printArea h2 {
-            font-weight: 600 !important;
-            color: #27272a !important;
           }
           
           /* Light & fine borders for print headers */
@@ -489,7 +479,7 @@ export default function MidicareReceiptApp() {
       )}
 
       {showPreview && (
-        <div className="max-w-[1000px] mx-auto bg-gray-200 print:bg-white shadow-2xl print:shadow-none print:max-w-full text-zinc-800 pb-10">
+        <div className="max-w-[1000px] mx-auto bg-gray-200 print:bg-white shadow-2xl print:shadow-none print:max-w-full text-zinc-900 pb-10">
 
           <div className="flex flex-wrap justify-between p-4 bg-gray-800 print:hidden rounded-t-lg gap-4">
             <button onClick={() => setShowPreview(false)} className="text-white font-bold border-[2px] border-white px-4 py-2 rounded hover:bg-gray-600 w-full sm:w-auto">← Back to Data Entry</button>
@@ -503,67 +493,66 @@ export default function MidicareReceiptApp() {
 
           <div className="overflow-x-auto w-full bg-gray-200 print:bg-white p-2 sm:p-8 print:p-0 print:overflow-visible">
 
-            <div id="printArea" ref={invoiceRef} className="bg-white p-6 print:p-0 text-[11px] leading-snug font-sans mx-auto shadow-xl print:shadow-none min-w-[800px] max-w-4xl print:min-w-0 print:w-full text-zinc-800">
+            <div id="printArea" ref={invoiceRef} className="bg-white p-6 print:p-0 text-[11px] leading-snug font-sans mx-auto shadow-xl print:shadow-none min-w-[800px] max-w-4xl print:min-w-0 print:w-full text-zinc-900">
 
               <div className="flex justify-between items-center mb-5">
                 <div className="w-1/4 flex flex-col items-center justify-center">
                   <img src="/Azad.jpg" alt="Azad Distributor Logo" className="w-28 h-auto object-contain mb-1" />
                 </div>
-                <div className="w-2/4 text-center text-zinc-800">
-                  <h1 className="text-2xl font-bold mb-1 text-zinc-900">Azad Medicine Company</h1>
-                  <p className="font-medium text-zinc-700">Captan Sajjad Shaheed,Bypass Road Near Hospital St</p>
-                  <p className="font-medium text-zinc-700">Cell# 03444110035,web:www.azadmedicinecompany.pk</p>
-                  <h2 className="text-lg font-bold mt-3 tracking-wide text-zinc-800 uppercase">Sales Invoice</h2>
+                <div className="w-2/4 text-center text-zinc-900">
+                  <h1 className="text-2xl font-bold mb-1 text-black">Azad Medicine Company</h1>
+                  <p className="font-semibold text-zinc-800">Captan Sajjad Shaheed,Bypass Road Near Hospital St</p>
+                  <p className="font-semibold text-zinc-800">Cell# 03444110035,web:www.azadmedicinecompany.pk</p>
+                  <h2 className="text-xl font-extrabold mt-3 tracking-widest text-black uppercase underline underline-offset-4">Sales Invoice</h2>
                 </div>
-                <div className="w-1/4 text-right text-zinc-800 font-medium">
-                  <p><span className="mr-2 font-semibold">Branch Name:</span> {details.branchName || "_________________"}</p>
-                  <p><span className="mr-2 font-semibold">Operator ID:</span> {details.operatorId}</p>
+                <div className="w-1/4 text-right text-zinc-900 font-semibold">
+                  <p><span className="mr-2 font-bold">Branch Name:</span> {details.branchName || "_________________"}</p>
+                  <p><span className="mr-2 font-bold">Operator ID:</span> {details.operatorId}</p>
                 </div>
               </div>
 
-              {/* IS DIV SE BORDER REMOVE KIYA GAYA HAI */}
               <div className="rounded-sm p-2.5 flex justify-between mb-3 bg-white">
-                <div className="grid grid-cols-[100px_1fr] gap-y-1 w-[45%] text-zinc-800 font-medium">
-                  <div className="text-right pr-2 text-zinc-600 font-semibold">Invoice No:</div><div className="font-semibold text-zinc-900">{details.invoiceNo}</div>
-                  <div className="text-right pr-2 text-zinc-600 font-semibold">Account Code:</div><div>{details.accountCode}</div>
-                  <div className="text-right pr-2 text-zinc-600 font-semibold">Name:</div><div className="font-semibold text-zinc-900">{details.clientName}</div>
-                  <div className="text-right pr-2 text-zinc-600 font-semibold">Address:</div><div>{details.address}</div>
-                  <div className="text-right pr-2 mt-1 text-zinc-600 font-semibold">Contact No:</div><div className="mt-1">{details.phoneNo}</div>
+                <div className="grid grid-cols-[100px_1fr] gap-y-1 w-[45%] text-zinc-900 font-semibold">
+                  <div className="text-right pr-2 text-zinc-800 font-bold">Invoice No:</div><div className="font-bold text-black">{details.invoiceNo}</div>
+                  <div className="text-right pr-2 text-zinc-800 font-bold">Account Code:</div><div>{details.accountCode}</div>
+                  <div className="text-right pr-2 text-zinc-800 font-bold">Name:</div><div className="font-bold text-black">{details.clientName}</div>
+                  <div className="text-right pr-2 text-zinc-800 font-bold">Address:</div><div>{details.address}</div>
+                  <div className="text-right pr-2 mt-1 text-zinc-800 font-bold">Contact No:</div><div className="mt-1">{details.phoneNo}</div>
                 </div>
-                <div className="w-[10%] relative font-medium text-zinc-700">
-                  <div className="absolute bottom-0 left-0 font-semibold">License#:</div>
+                <div className="w-[10%] relative font-semibold text-zinc-800">
+                  <div className="absolute bottom-0 left-0 font-bold">License#:</div>
                 </div>
-                <div className="grid grid-cols-[130px_1fr] gap-y-1 w-[40%] text-zinc-800 font-medium">
-                  <div className="text-right pr-2 text-zinc-600 font-semibold">Invoice Date:</div><div>{details.invoiceDate}</div>
-                  <div className="text-right pr-2 text-zinc-600 font-semibold">Summary/PRS No:</div><div>{details.summaryNo}</div>
-                  <div className="text-right pr-2 text-zinc-600 font-semibold">Booked By:</div><div>{details.bookedBy}</div>
-                  <div className="text-right pr-2 text-zinc-600 font-semibold">Supplied By:</div><div>{details.suppliedBy}</div>
-                  <div className="text-right pr-2 text-zinc-600 font-semibold">Territory:</div><div>{details.territory}</div>
+                <div className="grid grid-cols-[130px_1fr] gap-y-1 w-[40%] text-zinc-900 font-semibold">
+                  <div className="text-right pr-2 text-zinc-800 font-bold">Invoice Date:</div><div>{details.invoiceDate}</div>
+                  <div className="text-right pr-2 text-zinc-800 font-bold">Summary/PRS No:</div><div>{details.summaryNo}</div>
+                  <div className="text-right pr-2 text-zinc-800 font-bold">Booked By:</div><div>{details.bookedBy}</div>
+                  <div className="text-right pr-2 text-zinc-800 font-bold">Supplied By:</div><div>{details.suppliedBy}</div>
+                  <div className="text-right pr-2 text-zinc-800 font-bold">Territory:</div><div>{details.territory}</div>
                 </div>
               </div>
 
               <table className="w-full mb-1 border-collapse text-[10.5px] text-center print-border border-[1px] border-zinc-500">
                 <thead>
-                  <tr className="print-border-b border-b-[1px] border-zinc-500 print:bg-transparent text-zinc-900">
-                    <th rowSpan={2} className="print-border border-[1px] border-zinc-500 py-[2px] px-1 font-semibold w-[5%]">Code</th>
-                    <th rowSpan={2} className="print-border border-[1px] border-zinc-500 py-[2px] px-2 font-semibold text-left w-[25%]">Product Name</th>
-                    <th rowSpan={2} className="print-border border-[1px] border-zinc-500 py-[2px] px-1 font-semibold w-[8%]">Batch No</th>
-                    <th rowSpan={2} className="print-border border-[1px] border-zinc-500 py-[2px] px-1 font-semibold w-[8%]">Expiry<br />Date</th>
-                    <th colSpan={2} className="print-border border-[1px] border-zinc-500 py-[2px] px-1 font-semibold w-[10%]">Quantity</th>
-                    <th rowSpan={2} className="print-border border-[1px] border-zinc-500 py-[2px] px-1 font-semibold w-[8%]">Trade<br />Price</th>
-                    <th rowSpan={2} className="print-border border-[1px] border-zinc-500 py-[2px] px-1 font-semibold w-[10%]">Gross<br />Amount</th>
-                    <th colSpan={2} className="print-border border-[1px] border-zinc-500 py-[2px] px-1 font-semibold w-[12%]">Discount</th>
-                    <th rowSpan={2} className="print-border border-[1px] border-zinc-500 py-[2px] px-1 font-semibold w-[5%]">STAX</th>
-                    <th rowSpan={2} className="print-border border-[1px] border-zinc-500 py-[2px] px-1 font-semibold w-[9%]">Net Amount</th>
+                  <tr className="print-border-b border-b-[1px] border-zinc-500 print:bg-transparent text-black">
+                    <th rowSpan={2} className="print-border border-[1px] border-zinc-500 py-[2px] px-1 font-bold w-[5%]">Code</th>
+                    <th rowSpan={2} className="print-border border-[1px] border-zinc-500 py-[2px] px-2 font-bold text-left w-[25%]">Product Name</th>
+                    <th rowSpan={2} className="print-border border-[1px] border-zinc-500 py-[2px] px-1 font-bold w-[8%]">Batch No</th>
+                    <th rowSpan={2} className="print-border border-[1px] border-zinc-500 py-[2px] px-1 font-bold w-[8%]">Expiry<br />Date</th>
+                    <th colSpan={2} className="print-border border-[1px] border-zinc-500 py-[2px] px-1 font-bold w-[10%]">Quantity</th>
+                    <th rowSpan={2} className="print-border border-[1px] border-zinc-500 py-[2px] px-1 font-bold w-[8%]">Trade<br />Price</th>
+                    <th rowSpan={2} className="print-border border-[1px] border-zinc-500 py-[2px] px-1 font-bold w-[10%]">Gross<br />Amount</th>
+                    <th colSpan={2} className="print-border border-[1px] border-zinc-500 py-[2px] px-1 font-bold w-[12%]">Discount</th>
+                    <th rowSpan={2} className="print-border border-[1px] border-zinc-500 py-[2px] px-1 font-bold w-[5%]">STAX</th>
+                    <th rowSpan={2} className="print-border border-[1px] border-zinc-500 py-[2px] px-1 font-bold w-[9%]">Net Amount</th>
                   </tr>
-                  <tr className="print-border-b border-b-[1px] border-zinc-500 print:bg-transparent text-zinc-900">
-                    <th className="print-border border-[1px] border-zinc-500 py-[2px] px-1 font-semibold">Qty</th>
-                    <th className="print-border border-[1px] border-zinc-500 py-[2px] px-1 font-semibold">Free</th>
-                    <th className="print-border border-[1px] border-zinc-500 py-[2px] px-1 font-semibold">%</th>
-                    <th className="print-border border-[1px] border-zinc-500 py-[2px] px-1 font-semibold">Amount</th>
+                  <tr className="print-border-b border-b-[1px] border-zinc-500 print:bg-transparent text-black">
+                    <th className="print-border border-[1px] border-zinc-500 py-[2px] px-1 font-bold">Qty</th>
+                    <th className="print-border border-[1px] border-zinc-500 py-[2px] px-1 font-bold">Free</th>
+                    <th className="print-border border-[1px] border-zinc-500 py-[2px] px-1 font-bold">%</th>
+                    <th className="print-border border-[1px] border-zinc-500 py-[2px] px-1 font-bold">Amount</th>
                   </tr>
                 </thead>
-                <tbody className="text-zinc-800 font-medium">
+                <tbody className="text-zinc-900 font-semibold">
                   {items.map((item) => {
                     const tradePrice = Number(item.realPrice) * 0.85;
                     const gross = tradePrice * Number(item.qty);
@@ -573,17 +562,17 @@ export default function MidicareReceiptApp() {
                     return (
                       <tr key={item.id} className="border-none print:border-none">
                         <td className="py-[3px] px-1">{item.code}</td>
-                        <td className="py-[3px] px-2 text-left uppercase font-semibold text-zinc-900">{item.name}</td>
+                        <td className="py-[3px] px-2 text-left uppercase font-bold text-black">{item.name}</td>
                         <td className="py-[3px] px-1">{item.batch}</td>
                         <td className="py-[3px] px-1">{item.expiry}</td>
                         <td className="py-[3px] px-1">{item.qty}</td>
                         <td className="py-[3px] px-1">{item.free}</td>
                         <td className="py-[3px] px-1">{tradePrice.toFixed(1)}</td>
-                        <td className="py-[3px] px-1 font-semibold">{gross.toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}</td>
+                        <td className="py-[3px] px-1 font-bold text-black">{gross.toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}</td>
                         <td className="py-[3px] px-1">{Number(item.extraDiscountPercent).toFixed(1)}</td>
                         <td className="py-[3px] px-1 text-right pr-2">{discAmount.toFixed(1)}</td>
                         <td className="py-[3px] px-1">{Number(item.stax) > 0 ? item.stax : ""}</td>
-                        <td className="py-[3px] px-1 text-right pr-2 font-semibold text-zinc-900">{net.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                        <td className="py-[3px] px-1 text-right pr-2 font-bold text-black">{net.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                       </tr>
                     );
                   })}
@@ -593,12 +582,13 @@ export default function MidicareReceiptApp() {
               <div className="flex mb-2 mt-2 px-1">
                 <div className="w-[66%] pr-4 flex flex-col justify-between">
                   <div>
-                    <div className="flex gap-12 font-semibold text-zinc-800 text-[11px] mb-1.5">
+                    <div className="flex gap-12 font-bold text-black text-[11px] mb-1.5">
                       <div>No of Item(s) <span className="ml-4">{items.length}</span></div>
                       <div className="ml-16">{totals.qty}</div>
                     </div>
 
-                    <p className="text-[8.5px] text-zinc-700 text-justify leading-tight font-normal mb-1">
+                    {/* Warranty Text Bara aur Bold */}
+                    <p className="text-[10px] text-black text-justify leading-tight font-bold mb-1">
                       Warranty: Under section 23(1)(1) for Pharmaceutical Products of the Drug Act 1976 &amp; DRAP Act, 2012 for
                       Alternative Medicine &amp; Health Products. I, Salman Khan, being a person resident in Pakistan and am a
                       qualified person of AZAD MEDICINE COMPANY, Captan Sajjad Shaheed, Bypass Road, Near Hospital
@@ -607,27 +597,28 @@ export default function MidicareReceiptApp() {
                     </p>
                   </div>
 
-                  <div className="text-[9px] font-semibold text-zinc-700 leading-tight">
+                  {/* Note Section Bara aur Extra Bold */}
+                  <div className="text-[10.5px] font-extrabold text-black leading-tight">
                     <p className="mb-0.5">** NOTE 1:- Intimation of Expired Stock within Six(6) months will be highly appreciated...</p>
                     <p className="ml-3">Note 2 :Helix Stallion Team(Bonus Products) expiry will not be accepted.</p>
                   </div>
                 </div>
 
                 <div className="w-[34%] pl-2 bg-white print:bg-transparent flex flex-col justify-start">
-                  <div className="grid grid-cols-[1fr_80px] gap-y-1 text-right text-[10.5px] text-zinc-800">
-                    <div className="font-semibold text-zinc-800">Total Gross Amount:</div>
-                    <div className="font-semibold">{totals.gross.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
+                  <div className="grid grid-cols-[1fr_80px] gap-y-1 text-right text-[10.5px] text-zinc-900">
+                    <div className="font-bold text-black">Total Gross Amount:</div>
+                    <div className="font-bold">{totals.gross.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
 
-                    <div className="font-medium text-zinc-700">Total Discount:</div>
+                    <div className="font-semibold text-zinc-800">Total Discount:</div>
                     <div>{totals.discount.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
 
-                    <div className="font-medium text-zinc-700">S.Tax Amount:</div>
+                    <div className="font-semibold text-zinc-800">S.Tax Amount:</div>
                     <div>{totals.stax.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
 
-                    <div className="font-semibold pt-1 mt-1 text-[11px] text-zinc-900">
+                    <div className="font-bold pt-1 mt-1 text-[11px] text-black">
                       Net Bill Amount:
                     </div>
-                    <div className="font-semibold pt-1 mt-1 text-[11px] text-zinc-900">
+                    <div className="font-bold pt-1 mt-1 text-[11px] text-black">
                       {netBillAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                     </div>
                   </div>
@@ -635,14 +626,13 @@ export default function MidicareReceiptApp() {
               </div>
 
               <div className="flex justify-end items-end mt-2 pr-4">
-                <div className="w-1/3 text-center">
-                  <div className="h-8 mb-1"></div>
-                  <p className="text-[11px] font-semibold text-zinc-700">For {details.branchName || "AMC Bajaur"}</p>
+                <div className="w-1/3 text-center flex flex-col items-center">
+                  <img src="/WhatsApp Image 2026-09-20 at 5.51.10 PM.jpeg" alt="Signature" className="h-12 object-contain mix-blend-multiply mb-1" />
+                  <p className="text-[11px] font-semibold text-zinc-800 border-t border-zinc-400 w-full pt-1">For {details.branchName || "AMC Bajaur"}</p>
                 </div>
               </div>
 
-              {/* Urdu Footer */}
-              <div className="mt-2 mb-2 text-center text-[16px] font-bold text-black" dir="rtl" style={{ fontFamily: '"Jameel Noori Nastaleeq", "Noto Nastaliq Urdu", serif' }}>
+              <div className="mt-2 mb-1 text-center text-[16px] font-extrabold text-black" dir="rtl" style={{ fontFamily: '"Jameel Noori Nastaleeq", "Noto Nastaliq Urdu", Arial, serif' }}>
                 خبردار:- سٹاک وصول کرتے وقت بل کی رقوم ، تعداد اشیاء وغیرہ تسلی سے چیک کریں۔ بعد میں ہم ذمہ دار نہ ہوں گے۔
               </div>
 
